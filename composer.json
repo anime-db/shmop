@@ -24,5 +24,8 @@
     "require": {
         "php": ">=5.0",
         "ext-shmop": "*"
+    },
+    "suggest": {
+        "gpslab/shmop": "Pagination bundle has moved to a new package name. The package you have installed is deprecated."
     }
 }
