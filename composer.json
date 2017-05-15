@@ -26,6 +26,6 @@
         "ext-shmop": "*"
     },
     "suggest": {
-        "gpslab/shmop": "Pagination bundle has moved to a new package name. The package you have installed is deprecated."
+        "gpslab/shmop": "Shmop has moved to a new package name. The package you have installed is deprecated."
     }
 }
