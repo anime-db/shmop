@@ -25,6 +25,10 @@
         "php": ">=5.0",
         "ext-shmop": "*"
     },
+    "require-dev" : {
+        "phpunit/phpunit": "4.8.*",
+        "scrutinizer/ocular": "~1.3"
+    },
     "suggest": {
         "gpslab/shmop": "Shmop has moved to a new package name. The package you have installed is deprecated."
     }
