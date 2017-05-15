@@ -1,22 +1,36 @@
 language: php
 
+sudo: false
+
 php:
     - 5.3
     - 5.4
     - 5.5
     - 5.6
     - 7.0
+    - 7.1
 
 notifications:
     email: dev@anime-db.org
 
-install:
+matrix:
+    fast_finish: true
+    include:
+        - php: 5.3
+          env: COVERAGE=1
+
+before_install:
+    - echo "memory_limit=2G" >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini
+    - if [ "$COVERAGE" != "1" ]; then phpenv config-rm xdebug.ini; fi;
+    - if [ -n "$GH_TOKEN" ]; then composer config github-oauth.github.com ${GH_TOKEN}; fi;
     - composer self-update
-    - composer install --dev --prefer-dist
+
+before_script:
+    - composer install --prefer-dist --no-interaction --no-scripts --no-progress
 
 script:
-    - phpunit --verbose --coverage-clover=coverage.clover
+    - if [ "$COVERAGE" != "1" ]; then vendor/bin/phpunit; fi;
+    - if [ "$COVERAGE" == "1" ]; then vendor/bin/phpunit --coverage-clover build/coverage-clover.xml; fi;
 
 after_script:
-    - wget https://scrutinizer-ci.com/ocular.phar
-    - php ocular.phar code-coverage:upload --format=php-clover coverage.clover
+    - if [ "$COVERAGE" == "1" ]; then vendor/bin/ocular code-coverage:upload --format=php-clover build/coverage-clover.xml; fi;
